@@ -121,8 +121,12 @@ section {
 }
 
 .nav-toggle .dots {
-  font-size: 10px;
-  letter-spacing: 2px;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: currentColor;
+  /* left dot · center dot (the element itself) · right dot */
+  box-shadow: -7px 0 0 currentColor, 7px 0 0 currentColor;
 }
 
 .nav-toggle .close {
@@ -535,9 +539,11 @@ section {
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   object-position: top center;
   display: block;
+  background: var(--cream-raised);
+  padding: 12px;
 }
 
 /* When .project-row is an <a> tag, reset link appearance */
