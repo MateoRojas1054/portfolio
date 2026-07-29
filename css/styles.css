@@ -121,8 +121,8 @@ section {
 }
 
 .nav-toggle .dots {
-  font-size: 16px;
-  letter-spacing: 1px;
+  font-size: 10px;
+  letter-spacing: 2px;
 }
 
 .nav-toggle .close {
@@ -557,7 +557,6 @@ section {
 
 .test-track {
   display: flex;
-  gap: 24px;
   animation: scrollLeft2 32s linear infinite;
   width: max-content;
 }
@@ -574,6 +573,9 @@ section {
 .test-card {
   width: 360px;
   flex: none;
+  /* margin-right replaces flex gap so the -50% translate lands at the
+     exact midpoint of the duplicated content — zero seam on loop */
+  margin-right: 24px;
   background: var(--cream-raised);
   border: 1px solid var(--line);
   border-radius: var(--radius);
