@@ -533,7 +533,7 @@ section {
   transform: scale(1.02);
 }
 
-/* Image fills the media box — screenshot was captured at 16:10, so cover has no visible crop */
+/* Image fills the media box — zoomed slightly to crop any edge artifacts */
 .project-img {
   position: absolute;
   inset: 0;
@@ -542,6 +542,9 @@ section {
   object-fit: cover;
   object-position: top center;
   display: block;
+  transform: scale(1.06);
+  transform-origin: top center;
+  border-radius: var(--radius);
 }
 
 /* When .project-row is an <a> tag, reset link appearance */
