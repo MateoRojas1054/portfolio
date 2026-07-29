@@ -533,17 +533,15 @@ section {
   transform: scale(1.02);
 }
 
-/* Image fills the media box as a cover photo */
+/* Image fills the media box — screenshot was captured at 16:10, so cover has no visible crop */
 .project-img {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
   object-position: top center;
   display: block;
-  background: var(--cream-raised);
-  padding: 12px;
 }
 
 /* When .project-row is an <a> tag, reset link appearance */
