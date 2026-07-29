@@ -120,12 +120,14 @@ section {
   will-change: opacity, transform;
 }
 
-.nav-toggle .dots {
+.nav-toggle .dots::before {
+  content: '';
+  display: block;
   width: 3px;
   height: 3px;
   border-radius: 50%;
   background: currentColor;
-  /* left dot · center dot (the element itself) · right dot */
+  /* left dot  ·  center dot (::before itself)  ·  right dot */
   box-shadow: -7px 0 0 currentColor, 7px 0 0 currentColor;
 }
 
@@ -290,12 +292,17 @@ section {
 }
 
 .ticker-track span::after {
-  content: '/CREATING SINCE 2020';
+  content: '/CREATING SINCE 2021';
 }
 
 @keyframes scrollLeft {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
 }
 
 .pin-corner-l {
@@ -384,7 +391,7 @@ section {
   transform: translateY(0);
 }
 
-.stagger > * {
+.stagger>* {
   transition-delay: calc(var(--i, 0) * 90ms);
 }
 
@@ -591,8 +598,13 @@ a.project-row {
 }
 
 @keyframes scrollLeft2 {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
 }
 
 .test-card {
