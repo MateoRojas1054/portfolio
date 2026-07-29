@@ -582,8 +582,8 @@ a.project-row {
 
 .test-track {
   display: flex;
-  animation: scrollLeft2 32s linear infinite;
   width: max-content;
+  will-change: transform;
 }
 
 .testimonials:hover .test-track {
