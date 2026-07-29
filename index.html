@@ -1,0 +1,1079 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scroll Study — Portfolio Clone</title>
+  <style>
+    :root {
+      --cream: #efece3;
+      --cream-raised: #e7e3d6;
+      --ink: #15140f;
+      --ink-dim: #77746a;
+      --line: #dbd6c8;
+      --red: #c8281c;
+      --dark: #141310;
+      --dark-line: #2a2924;
+      --radius: 20px;
+      --ease: cubic-bezier(.16, .84, .26, .99);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: auto;
+    }
+
+    body {
+      margin: 0;
+      background: var(--cream);
+      color: var(--ink);
+      font-family: 'Neue Montreal', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+      }
+    }
+
+    .wrap {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    section {
+      position: relative;
+    }
+
+    /* ---------- nav pill ---------- */
+    .nav-pill {
+      position: fixed;
+      top: 22px;
+      left: 50%;
+      transform: translateX(-50%) translateY(0) scale(1);
+      z-index: 80;
+      background: rgba(20, 19, 16, .94);
+      color: var(--cream);
+      display: flex;
+      flex-direction: column;
+      width: auto;
+      border-radius: 26px;
+      overflow: hidden;
+      transform-origin: top center;
+      box-shadow: 0 14px 32px rgba(0, 0, 0, .12);
+      backdrop-filter: saturate(180%) blur(10px);
+      transition: width .75s var(--ease), border-radius .75s var(--ease), transform .75s var(--ease), box-shadow .75s var(--ease);
+      will-change: width, transform;
+    }
+
+    .nav-pill.open {
+      width: 300px;
+      transform: translateX(-50%) translateY(2px) scale(1);
+      box-shadow: 0 20px 48px rgba(0, 0, 0, .18);
+    }
+
+    .nav-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 8px 8px 22px;
+      font-size: 15px;
+      font-weight: 600;
+      gap: 16px;
+    }
+
+    .nav-toggle {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--cream);
+      color: var(--dark);
+      border: none;
+      cursor: pointer;
+      position: relative;
+      flex: none;
+      transition: transform .35s var(--ease), background .25s var(--ease), box-shadow .35s var(--ease);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, .16);
+    }
+
+    .nav-toggle:hover {
+      transform: scale(1.06);
+    }
+
+    .nav-toggle:active {
+      transform: scale(.96);
+    }
+
+    .nav-toggle .dots,
+    .nav-toggle .close {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity .28s var(--ease), transform .4s var(--ease);
+      will-change: opacity, transform;
+    }
+
+    .nav-toggle .dots {
+      font-size: 16px;
+      letter-spacing: 1px;
+    }
+
+    .nav-toggle .close {
+      opacity: 0;
+      transform: scale(.35) rotate(-60deg);
+      font-size: 20px;
+      line-height: 1;
+    }
+
+    .nav-pill.open .nav-toggle .dots {
+      opacity: 0;
+      transform: scale(.35) rotate(60deg);
+    }
+
+    .nav-pill.open .nav-toggle .close {
+      opacity: 1;
+      transform: scale(1) rotate(0);
+    }
+
+    .nav-menu {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-height: 0;
+      opacity: 0;
+      padding: 0 8px;
+      overflow: hidden;
+      transform: translateY(-8px);
+      transition: max-height .85s var(--ease), opacity .5s var(--ease), padding .75s var(--ease), transform .85s var(--ease);
+    }
+
+    .nav-pill.open .nav-menu {
+      max-height: 280px;
+      opacity: 1;
+      padding: 0 8px 10px;
+      transform: translateY(0);
+    }
+
+    .nav-menu a {
+      background: var(--cream);
+      color: var(--dark);
+      border-radius: 14px;
+      padding: 13px 18px;
+      font-size: 15px;
+      font-weight: 600;
+      text-align: left;
+      opacity: 0;
+      transform: translateY(-10px) scale(.98);
+      filter: blur(2px);
+      pointer-events: none;
+      transition: opacity .6s var(--ease), transform .75s var(--ease), filter .75s var(--ease), background .3s var(--ease);
+      transition-delay: 0ms;
+    }
+
+    .nav-pill.open .nav-menu a {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      filter: blur(0);
+      pointer-events: auto;
+      transition-delay: calc(var(--i, 0) * 130ms);
+    }
+
+    .nav-menu a:hover {
+      background: #fff;
+      transform: translateY(-2px) scale(1.01);
+    }
+
+    /* ============ PIN STAGE (hero -> bio morph) ============ */
+    .pin-stage {
+      height: 260vh;
+    }
+
+    .pin-inner {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .pin-headline {
+      position: absolute;
+      top: 20%;
+      left: 50%;
+      transform: translate(-50%, 0);
+      width: 100%;
+      text-align: center;
+      margin: 0;
+      font-family: 'Arial Black', 'Helvetica Neue', Arial, sans-serif;
+      font-size: clamp(56px, 12.5vw, 180px);
+      font-weight: 900;
+      letter-spacing: -.02em;
+      line-height: .92;
+      will-change: transform, opacity;
+    }
+
+    .photo-box {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      width: 210px;
+      height: 280px;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: 0 40px 70px rgba(20, 19, 16, .18);
+      will-change: transform, width, height, top;
+    }
+
+    .photo-layer {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      transition: opacity .05s linear;
+    }
+
+    .photo-layer.back {
+      background: linear-gradient(180deg, #3d3c37 0%, #0d0d0b 80%);
+    }
+
+    .photo-layer.back svg {
+      width: 60%;
+      opacity: .85;
+      margin-bottom: -4%;
+    }
+
+    .photo-layer.front {
+      background: radial-gradient(120% 90% at 50% 0%, #ff4a38, #9c0f08 78%);
+    }
+
+    .photo-layer.front svg {
+      width: 46%;
+      opacity: .92;
+      margin-bottom: 8%;
+    }
+
+    .pin-ticker {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 64px;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      padding: 14px 0;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+
+    .ticker-track {
+      display: inline-flex;
+      gap: 40px;
+      animation: scrollLeft 18s linear infinite;
+    }
+
+    .ticker-track span {
+      font-size: 14px;
+      letter-spacing: .12em;
+      color: var(--ink-dim);
+      display: flex;
+      gap: 40px;
+    }
+
+    .ticker-track span::after {
+      content: '/CREATING SINCE 2020';
+    }
+
+    @keyframes scrollLeft {
+      from {
+        transform: translateX(0);
+      }
+
+      to {
+        transform: translateX(-50%);
+      }
+    }
+
+    .pin-corner-l {
+      position: absolute;
+      left: 32px;
+      bottom: 24px;
+      font-weight: 700;
+      font-size: 34px;
+    }
+
+    .pin-corner-r {
+      position: absolute;
+      right: 32px;
+      bottom: 34px;
+      font-size: 13px;
+      color: var(--ink-dim);
+      letter-spacing: .08em;
+    }
+
+    .bio-copy {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      grid-template-columns: 1fr 480px 1fr;
+      align-items: center;
+      padding: 0 60px;
+      pointer-events: none;
+    }
+
+    .bio-copy .col {
+      max-width: 340px;
+    }
+
+    .bio-copy .col.left {
+      grid-column: 1;
+      justify-self: start;
+    }
+
+    .bio-copy .col.right {
+      grid-column: 3;
+      justify-self: end;
+      text-align: left;
+    }
+
+    .bio-copy h2 {
+      font-size: 56px;
+      font-weight: 700;
+      margin: 0 0 26px;
+    }
+
+    .bio-copy p {
+      font-size: 17px;
+      line-height: 1.5;
+      font-weight: 500;
+      margin: 0;
+    }
+
+    .bio-copy .desc {
+      color: var(--ink-dim);
+      font-weight: 400;
+      font-size: 15px;
+      line-height: 1.6;
+      margin-bottom: 18px;
+    }
+
+    .bio-copy .cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 6px;
+      padding: 12px 22px;
+      border: 1px solid var(--ink);
+      border-radius: 100px;
+      font-size: 14px;
+    }
+
+    /* ---------- reveal utility ---------- */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity .9s var(--ease), transform .9s var(--ease);
+    }
+
+    .reveal.in {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .stagger>* {
+      transition-delay: calc(var(--i, 0) * 90ms);
+    }
+
+    /* ---------- SCRUB TEXT ---------- */
+    .scrub-section {
+      height: 240vh;
+    }
+
+    .scrub-pin {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 32px;
+    }
+
+    .scrub-text {
+      max-width: 900px;
+      font-size: clamp(24px, 4.2vw, 50px);
+      font-weight: 700;
+      line-height: 1.28;
+      letter-spacing: -.02em;
+    }
+
+    .scrub-text span {
+      color: #c9c4b3;
+      transition: color .15s linear;
+    }
+
+    .scrub-text span.lit {
+      color: var(--ink);
+    }
+
+    /* ---------- SERVICES ---------- */
+    .services {
+      padding: 100px 0 140px;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 56px;
+    }
+
+    .section-head .eyebrow {
+      font-size: 13px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--ink-dim);
+    }
+
+    .section-head h3 {
+      font-size: clamp(30px, 4vw, 44px);
+      font-weight: 700;
+      letter-spacing: -.02em;
+      margin: 8px 0 0;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--line);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .service-card {
+      background: var(--cream);
+      padding: 36px 30px;
+      min-height: 220px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: background .4s var(--ease);
+    }
+
+    .service-card:hover {
+      background: var(--cream-raised);
+    }
+
+    .service-card .num {
+      font-size: 12px;
+      color: var(--ink-dim);
+    }
+
+    .service-card h4 {
+      font-size: 20px;
+      font-weight: 700;
+      margin: 26px 0 14px;
+    }
+
+    .service-card ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      color: var(--ink-dim);
+      font-size: 13px;
+      line-height: 2;
+    }
+
+    /* ---------- PROJECTS ---------- */
+    .projects {
+      padding: 60px 0 140px;
+    }
+
+    .project-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      padding: 40px 0;
+      border-top: 1px solid var(--line);
+      align-items: center;
+    }
+
+    .project-row:last-child {
+      border-bottom: 1px solid var(--line);
+    }
+
+    .project-media {
+      aspect-ratio: 16/10;
+      border-radius: var(--radius);
+      background: linear-gradient(135deg, #e2ddcd, #efece3);
+      overflow: hidden;
+      position: relative;
+      transition: transform .6s var(--ease);
+    }
+
+    .project-media .shine {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, transparent 30%, rgba(255, 255, 255, .5) 50%, transparent 70%);
+      transform: translateX(-100%);
+      transition: transform 1.1s var(--ease);
+    }
+
+    .project-row:hover .shine {
+      transform: translateX(100%);
+    }
+
+    .project-row:hover .project-media {
+      transform: scale(1.02);
+    }
+
+    .project-info .tag {
+      font-size: 12px;
+      color: var(--ink-dim);
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    .project-info h4 {
+      font-size: clamp(24px, 3vw, 34px);
+      margin: 12px 0;
+      font-weight: 700;
+    }
+
+    .project-info p {
+      color: var(--ink-dim);
+      font-size: 15px;
+      line-height: 1.6;
+      max-width: 38ch;
+    }
+
+    /* ---------- TESTIMONIALS ---------- */
+    .testimonials {
+      padding: 60px 0 140px;
+      overflow: hidden;
+    }
+
+    .test-track {
+      display: flex;
+      gap: 24px;
+      animation: scrollLeft2 32s linear infinite;
+      width: max-content;
+    }
+
+    .testimonials:hover .test-track {
+      animation-play-state: paused;
+    }
+
+    @keyframes scrollLeft2 {
+      from {
+        transform: translateX(0);
+      }
+
+      to {
+        transform: translateX(-50%);
+      }
+    }
+
+    .test-card {
+      width: 360px;
+      flex: none;
+      background: var(--cream-raised);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 28px;
+    }
+
+    .test-card p {
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--ink);
+      margin: 0 0 22px;
+    }
+
+    .test-who {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #c8c3b2, #8f8a78);
+    }
+
+    .test-who .name {
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .test-who .role {
+      font-size: 12px;
+      color: var(--ink-dim);
+    }
+
+    /* ---------- FOOTER (dark) ---------- */
+    .footer-cta {
+      padding: 160px 0 60px;
+      text-align: left;
+      background: var(--dark);
+      color: var(--cream);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .footer-cta::before {
+      content: "KRASSNY";
+      position: absolute;
+      left: 50%;
+      bottom: -0.18em;
+      transform: translateX(-50%);
+      font-size: clamp(160px, 26vw, 420px);
+      line-height: 0.82;
+      font-weight: 800;
+      letter-spacing: -.08em;
+      color: rgba(255, 255, 255, .10);
+      pointer-events: none;
+      user-select: none;
+      white-space: nowrap;
+    }
+
+    .footer-cta .wrap {
+      position: relative;
+      z-index: 1;
+    }
+
+    .footer-cta h2 {
+      font-size: clamp(34px, 7vw, 84px);
+      font-weight: 700;
+      letter-spacing: -.03em;
+      line-height: 1.02;
+      margin: 0;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 110px;
+      font-size: 13px;
+      color: #9b988c;
+      flex-wrap: wrap;
+      gap: 20px;
+      border-top: 1px solid var(--dark-line);
+      padding-top: 24px;
+    }
+
+    .footer-links a:hover {
+      color: var(--cream);
+    }
+
+    .progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 2px;
+      background: var(--red);
+      z-index: 90;
+      width: 0%;
+    }
+
+    @media (max-width:800px) {
+      .services-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .project-row {
+        grid-template-columns: 1fr;
+      }
+
+      .bio-copy {
+        grid-template-columns: 1fr;
+        text-align: center;
+        padding: 0 24px;
+      }
+
+      .bio-copy .col.left,
+      .bio-copy .col.right {
+        grid-column: 1;
+        justify-self: center;
+        max-width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="progress" id="progress"></div>
+
+  <nav class="nav-pill" id="navPill">
+    <div class="nav-top">
+      <span>Mateo</span>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+        <span class="dots">•••</span>
+        <span class="close">×</span>
+      </button>
+    </div>
+    <div class="nav-menu" id="navMenu">
+      <a href="#pinStage">About Me</a>
+      <a href="#services">Services</a>
+      <a href="#work">Projects</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+
+  <!-- PIN STAGE: hero headline + small photo -> grows/moves into bio layout -->
+  <section class="pin-stage" id="pinStage">
+    <div class="pin-inner">
+      <h1 class="pin-headline" id="pinHeadline">SOFTWARE<br />ENGINEER</h1>
+
+      <div class="photo-box" id="photoBox">
+        <div class="photo-layer back" id="photoBack">
+          <svg viewBox="0 0 200 260" fill="none">
+            <path
+              d="M100 40c-30 0-46 24-46 56 0 22 8 40 20 52-30 10-58 34-64 78h180c-6-44-34-68-64-78 12-12 20-30 20-52 0-32-16-56-46-56z"
+              fill="#050504" />
+          </svg>
+        </div>
+        <div class="photo-layer front" id="photoFront">
+          <svg viewBox="0 0 200 260" fill="none">
+            <path
+              d="M100 40c-30 0-46 24-46 56 0 22 8 40 20 52-30 10-58 34-64 78h180c-6-44-34-68-64-78 12-12 20-30 20-52 0-32-16-56-46-56z"
+              fill="#1c0503" />
+          </svg>
+        </div>
+      </div>
+
+      <div class="pin-ticker" id="pinTicker">
+        <div class="ticker-track" id="tickerTrack"></div>
+      </div>
+      <div class="pin-corner-l" id="pinCornerL">©2026</div>
+      <div class="pin-corner-r" id="pinCornerR">/CREATING SINCE 2020</div>
+
+      <div class="bio-copy" id="bioCopy">
+        <div class="col left">
+          <h2>Hey!</h2>
+          <p>I'm Mateo, a software developer based in Bogotá, currently building scalable and well-structured software
+            solutions.</p>
+        </div>
+        <div class="col right">
+          <p class="desc">Software engineer and backend developer focused on robust, scalable, cleanly architected
+            systems — deployed across production environments to automate real-world workflows.</p>
+          <a class="cta" href="#work">Get started ↗</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCRUB TEXT -->
+  <section class="scrub-section" id="scrubSection">
+    <div class="scrub-pin">
+      <p class="scrub-text" id="scrubText"></p>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="services" id="services">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div><span class="eyebrow">/ What I do</span>
+          <h3>Services</h3>
+        </div>
+      </div>
+      <div class="services-grid stagger" id="servicesGrid">
+        <div class="service-card reveal" style="--i:0">
+          <div class="num">01</div>
+          <div>
+            <h4>Backend Development</h4>
+            <ul>
+              <li>System architecture</li>
+              <li>Object-oriented design</li>
+              <li>Design patterns</li>
+            </ul>
+          </div>
+        </div>
+        <div class="service-card reveal" style="--i:1">
+          <div class="num">02</div>
+          <div>
+            <h4>Process Automation</h4>
+            <ul>
+              <li>Workflow automation</li>
+              <li>Data parsing</li>
+              <li>Python scripting</li>
+            </ul>
+          </div>
+        </div>
+        <div class="service-card reveal" style="--i:2">
+          <div class="num">03</div>
+          <div>
+            <h4>Infrastructure & CI/CD</h4>
+            <ul>
+              <li>Automated deployments</li>
+              <li>Linux environments</li>
+              <li>Server configuration</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section class="projects" id="work">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div><span class="eyebrow">/ Selected work</span>
+          <h3>Featured Projects</h3>
+        </div>
+      </div>
+      <div id="projectsList">
+        <div class="project-row reveal">
+          <div class="project-media">
+            <div class="shine"></div>
+          </div>
+          <div class="project-info"><span class="tag">Web Application</span>
+            <h4>La Salle Certifications — System</h4>
+            <p>A production-ready platform featuring clean PSR-4 autoloading and automated CI/CD pipelines.</p>
+          </div>
+        </div>
+        <!--
+        <div class="project-row reveal">
+          <div class="project-media">
+            <div class="shine"></div>
+          </div>
+          <div class="project-info"><span class="tag">Framer Template</span>
+            <h4>Najm — SaaS</h4>
+            <p>Conversion-first layout tuned for product launches and pricing clarity.</p>
+          </div>
+        </div>
+        <div class="project-row reveal">
+          <div class="project-media">
+            <div class="shine"></div>
+          </div>
+          <div class="project-info"><span class="tag">Framer Template</span>
+            <h4>Kavi — AI</h4>
+            <p>A darker, technical aesthetic for AI-native products and tools.</p>
+          </div>
+        </div>
+        -->
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="testimonials">
+    <div class="wrap section-head reveal">
+      <div><span class="eyebrow">/ Kind words</span>
+        <h3>Testimonials</h3>
+      </div>
+    </div>
+    <div class="test-track" id="testTrack"></div>
+  </section>
+
+  <!-- FOOTER -->
+  <section class="footer-cta" id="contact">
+    <div class="wrap">
+      <h2 class="reveal">Architecting robust systems<br />for scale.</h2>
+      <div class="footer-links reveal">
+        <div>Home · About · Services · Work · Contact</div>
+        <div>mateo.rojas1054@gmail.com</div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // ---------- helpers ----------
+    function clamp01(t) { return Math.min(Math.max(t, 0), 1); }
+    function lerp(a, b, t) { return a + (b - a) * t; }
+    function smoothstep(e0, e1, x) { const t = clamp01((x - e0) / (e1 - e0)); return t * t * (3 - 2 * t); }
+
+    // ---------- nav pill menu toggle ----------
+    const navPill = document.getElementById('navPill');
+    const navToggle = document.getElementById('navToggle');
+    const navLinks = [...document.querySelectorAll('.nav-menu a')];
+    navLinks.forEach((a, i) => a.style.setProperty('--i', i));
+
+    navToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      navPill.classList.toggle('open');
+    });
+
+    navLinks.forEach(a => {
+      a.addEventListener('click', () => navPill.classList.remove('open'));
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!navPill.contains(e.target)) navPill.classList.remove('open');
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') navPill.classList.remove('open');
+    });
+
+    // ---------- slow, custom smooth scroll for in-page anchor links ----------
+    function easeInOutCubic(t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+    function smoothScrollTo(targetY, duration) {
+      const startY = window.scrollY;
+      const diff = targetY - startY;
+      const startTime = performance.now();
+      function step(now) {
+        const t = Math.min((now - startTime) / duration, 1);
+        window.scrollTo(0, startY + diff * easeInOutCubic(t));
+        if (t < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', (e) => {
+        const id = a.getAttribute('href').slice(1);
+        const target = document.getElementById(id);
+        if (!target) return;
+        e.preventDefault();
+        const targetY = target.getBoundingClientRect().top + window.scrollY;
+        smoothScrollTo(targetY, 1800);
+      });
+    });
+
+    // ---------- scroll progress bar ----------
+    const progressBar = document.getElementById('progress');
+    function onScroll() {
+      const h = document.documentElement;
+      progressBar.style.width = (h.scrollTop / (h.scrollHeight - h.clientHeight) * 100) + '%';
+    }
+    document.addEventListener('scroll', onScroll, { passive: true });
+
+    // ---------- reveals ----------
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+    }, { threshold: 0.18, rootMargin: '0px 0px -8% 0px' });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+    document.querySelectorAll('.stagger').forEach(group => {
+      [...group.children].forEach((c, i) => c.style.setProperty('--i', i));
+    });
+
+    // ================= TICKER: fill full width so it never runs out on the right =================
+    const tickerTrack = document.getElementById('tickerTrack');
+    function buildTicker() {
+      tickerTrack.style.animation = 'none';
+      tickerTrack.innerHTML = '';
+      // add one span at a time until a single set is at least as wide as the viewport
+      let safety = 0;
+      while (tickerTrack.scrollWidth < window.innerWidth && safety < 80) {
+        tickerTrack.appendChild(document.createElement('span'));
+        safety++;
+      }
+      // duplicate the whole set once so translateX(-50%) loops seamlessly with no gap
+      tickerTrack.innerHTML += tickerTrack.innerHTML;
+      // restart the animation cleanly
+      void tickerTrack.offsetWidth;
+      tickerTrack.style.animation = '';
+    }
+    buildTicker();
+    window.addEventListener('resize', buildTicker);
+
+    // ================= PIN STAGE: photo morph =================
+    const pinStage = document.getElementById('pinStage');
+    const headline = document.getElementById('pinHeadline');
+    const photoBox = document.getElementById('photoBox');
+    const photoBack = document.getElementById('photoBack');
+    const photoFront = document.getElementById('photoFront');
+    const ticker = document.getElementById('pinTicker');
+    const cornerL = document.getElementById('pinCornerL');
+    const cornerR = document.getElementById('pinCornerR');
+    const bioCopy = document.getElementById('bioCopy');
+
+    // small starting box (matches hero screenshot) -> large centered box (matches bio screenshot)
+    const START = { w: 210, h: 280, bottomGap: 150 };   // bottomGap = distance from viewport bottom to box bottom
+    const END = { w: 400, h: 460 };                   // centered in viewport at the end
+
+    function updatePinStage() {
+      const rect = pinStage.getBoundingClientRect();
+      const scrollable = rect.height - window.innerHeight;
+      const p = clamp01(-rect.top / scrollable);
+      const vh = window.innerHeight;
+
+      // ease used for the size/position morph — finishes by ~70% of the pin scroll
+      const grow = smoothstep(0, 0.7, p);
+
+      const w = lerp(START.w, END.w, grow);
+      const hgt = lerp(START.h, END.h, grow);
+      const topStart = vh - START.h - START.bottomGap;
+      const topEnd = vh / 2 - END.h / 2;
+      const top = lerp(topStart, topEnd, grow);
+
+      photoBox.style.width = w + 'px';
+      photoBox.style.height = hgt + 'px';
+      photoBox.style.top = top + 'px';
+      photoBox.style.transform = 'translateX(-50%)';
+
+      // crossfade back-view (dark) -> front-view (red) through the middle of the morph
+      const fade = smoothstep(0.35, 0.68, p);
+      photoBack.style.opacity = 1 - fade;
+      photoFront.style.opacity = fade;
+
+      // headline + ticker + corners fade out early as the photo starts growing
+      const headOut = smoothstep(0, 0.32, p);
+      headline.style.opacity = 1 - headOut;
+      headline.style.transform = `translate(-50%, ${lerp(0, -40, headOut)}px)`;
+
+      const chromeOut = 1 - smoothstep(0, 0.16, p);
+      ticker.style.opacity = chromeOut;
+      cornerL.style.opacity = chromeOut;
+      cornerR.style.opacity = chromeOut;
+
+      // bio copy fades/slides in once the photo has mostly finished growing
+      const bioIn = smoothstep(0.55, 0.88, p);
+      bioCopy.style.opacity = bioIn;
+      bioCopy.style.transform = `translateY(${lerp(24, 0, bioIn)}px)`;
+      bioCopy.style.pointerEvents = bioIn > 0.5 ? 'auto' : 'none';
+    }
+    document.addEventListener('scroll', updatePinStage, { passive: true });
+    window.addEventListener('resize', updatePinStage);
+    updatePinStage();
+
+    // ================= SCRUB TEXT =================
+    const phrase = "From idea to production. Clean, scalable software built to move fast, stay maintainable, and perform in real-world use — driven by clean architecture, structured systems, and intentional design patterns.";
+    const scrubText = document.getElementById('scrubText');
+    scrubText.innerHTML = phrase.split(' ').map(w => `<span>${w}</span>`).join(' ');
+    const words = scrubText.querySelectorAll('span');
+    const scrubSection = document.getElementById('scrubSection');
+    function updateScrub() {
+      const rect = scrubSection.getBoundingClientRect();
+      const total = rect.height - window.innerHeight;
+      const p = clamp01(-rect.top / total);
+      const litCount = Math.round(p * words.length);
+      words.forEach((w, i) => w.classList.toggle('lit', i < litCount));
+    }
+    document.addEventListener('scroll', updateScrub, { passive: true });
+    updateScrub();
+
+    // ================= TESTIMONIALS =================
+    const testimonials = [
+      { q: "The certification system runs flawlessly in production. The automated deployment pipelines make updates incredibly smooth and reliable.", name: "Program Director", role: "Universidad de La Salle" },
+      { q: "His implementation of clean architecture and PSR-4 autoloading in the platform makes the codebase highly maintainable.", name: "External Auditor", role: "Technical Reviewer" },
+      { q: "Setting up GitHub Actions for the university server deployments was a game changer. It's a robust, well-structured solution.", name: "System Administrator", role: "IT Department" },
+      { q: "Clean object-oriented design and easy to scale. The platform was built with backend best practices from day one.", name: "Senior Developer", role: "Universidad de La Salle" },
+    ];
+    const track = document.getElementById('testTrack');
+    function card(t) { return `<div class="test-card"><p>"${t.q}"</p><div class="test-who"><div class="avatar"></div><div><div class="name">${t.name}</div><div class="role">${t.role}</div></div></div></div>`; }
+    track.innerHTML = testimonials.concat(testimonials).map(card).join('');
+  </script>
+</body>
+
+</html>
