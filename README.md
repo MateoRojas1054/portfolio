@@ -2,7 +2,7 @@
 
 Interactive developer portfolio for **Mateo Rojas Martinez** (Backend & Full-Stack Developer — Bogotá, Colombia), built as a zero-dependency vanilla HTML, CSS, and ES Modules desktop & terminal environment inspired by Linux TTY shells and the **Omarchy Batman** Arch/Hyprland aesthetic.
 
-**Live Site:** https://mateorojas1054.github.io/portfolio/
+**Live Site:** https://mateorojas.dev/
 
 ---
 
