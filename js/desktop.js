@@ -7,7 +7,7 @@
  */
 
 import { PROFILE, EXPERIENCE, PROJECTS, SKILLS, CERTIFICATIONS } from './data.js';
-import { NEOFETCH_EMBLEM, ARCH_CONSTANCIAS, ARCH_SIGMA } from './ascii.js';
+import { NEOFETCH_EMBLEM, ARCH_CONSTANCIAS, ARCH_SIGMA, BAT_EMBLEM } from './ascii.js';
 import { mountTetris } from './games/tetris.js';
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
@@ -1100,9 +1100,52 @@ export function initDesktop({
     });
   });
 
+  const KONAMI = [
+    'ArrowUp',
+    'ArrowUp',
+    'ArrowDown',
+    'ArrowDown',
+    'ArrowLeft',
+    'ArrowRight',
+    'ArrowLeft',
+    'ArrowRight',
+    'b',
+    'a',
+  ];
+  let konamiIdx = 0;
+  let batWallpaperOn = false;
+
+  function toggleBatWallpaper() {
+    if (!wallpaperEl) return;
+    batWallpaperOn = !batWallpaperOn;
+    wallpaperEl.textContent = batWallpaperOn ? BAT_EMBLEM : NEOFETCH_EMBLEM.join('\n');
+    wallpaperEl.classList.toggle('is-bat', batWallpaperOn);
+    showToast(
+      batWallpaperOn
+        ? 'Batcomputer mode unlocked — I use Arch, btw.'
+        : 'Restored default KrassnyOS wallpaper.',
+      4000
+    );
+  }
+
+  clockEl.addEventListener('dblclick', () => {
+    showToast('Bogotá (UTC-5) · 2,640m · I use Arch, btw.', 3200);
+  });
+
   window.addEventListener('keydown', (event) => {
     if (desktopRoot.hidden) return;
     if (launcherDialog.open || drawerDialog.open) return;
+
+    const k = event.key.length === 1 ? event.key.toLowerCase() : event.key;
+    if (k === KONAMI[konamiIdx]) {
+      konamiIdx += 1;
+      if (konamiIdx === KONAMI.length) {
+        konamiIdx = 0;
+        toggleBatWallpaper();
+      }
+    } else {
+      konamiIdx = k === KONAMI[0] ? 1 : 0;
+    }
 
     if (event.altKey && ['1', '2', '3', '4', '5'].includes(event.key)) {
       event.preventDefault();

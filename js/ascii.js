@@ -37,6 +37,52 @@ export const NEOFETCH_EMBLEM = [
   ' [  KRASSNY OS  ] ',
 ];
 
+export const BAT_EMBLEM = [
+  '        _==/          i     i          \\==_',
+  '      /XX/            |\\___/|            \\XX\\',
+  '    /XXXX\\            |XXXXX|            /XXXX\\',
+  '   |XXXXXX\\_         _XXXXXXX_         _/XXXXXX|',
+  '  XXXXXXXXXXXxxxxxxxXXXXXXXXXXXxxxxxxxXXXXXXXXXXX',
+  ' |XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX|',
+  ' XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
+  ' |XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX|',
+  '  XXXXXX/^^^^"\\XXXXXXXXXXXXXXXXXXXXX/^^^^^\\XXXXXX',
+  '   |XXX|       \\XXX/^^\\XXXXX/^^\\XXX/       |XXX|',
+  '     \\XX\\       \\X/    \\XXX/    \\X/       /XX/',
+  '        "\\       "      \\X/      "       /"',
+].join('\n');
+
+export const ARCH_EMBLEM = [
+  '                   -`',
+  '                  .o+`',
+  '                 `ooo/',
+  '                `+oooo:',
+  '               `+oooooo:',
+  '               -+oooooo+:',
+  '             `/:-:++oooo+:',
+  '            `/++++/+++++++:',
+  '           `/++++++++++++++:',
+  '          `/+++ooooooooooooo/`',
+  '         ./ooosssso++osssssso+`',
+  '        .oossssso-````/ossssss+`',
+  '       -osssssso.      :ssssssso.',
+  '      :osssssss/        osssso+++.',
+  '     /ossssssss/        +ssssooo/-',
+  '   `/ossssso+/:-        -:/+osssso+-',
+  '  `+sso+:-`                 `.-/+oso:',
+  ' `++:.                           `-/+/',
+  ' .`                                 `/',
+].join('\n');
+
+export const COFFEE_ART = [
+  '      ( (',
+  '       ) )',
+  '    ........',
+  '    |      |]',
+  '    \\      /',
+  "     `----'",
+].join('\n');
+
 export const ARCH_CONSTANCIAS = String.raw`
 +-------------------------------------------------------------------+
 |  constancias :: Production Architecture (PHP 8.2+ / MySQL 8.0)    |

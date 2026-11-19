@@ -755,6 +755,13 @@
     line-height: 1.25;
     color: #242628;
     text-align: left;
+
+    &.is-bat {
+      color: var(--accent);
+      opacity: 0.24;
+      font-size: clamp(10px, 1.2vw, 15px);
+      line-height: 1.15;
+    }
   }
 
   /* Desktop application icons (top-left sharp dark tiles) */

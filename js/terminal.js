@@ -18,6 +18,9 @@ import {
   NEOFETCH_EMBLEM,
   ARCH_CONSTANCIAS,
   ARCH_SIGMA,
+  BAT_EMBLEM,
+  ARCH_EMBLEM,
+  COFFEE_ART,
 } from './ascii.js';
 
 const COMMAND_LIST = [
@@ -658,6 +661,79 @@ export function createTerminal({
       case 'reboot':
         if (mode === 'drawer') onCloseDrawer?.();
         onReboot?.();
+        break;
+      /* Hidden Easter Eggs (intentionally omitted from help & Tab autocomplete) */
+      case 'batman':
+      case 'gotham':
+      case 'wayne':
+        appendBlock((b) => {
+          const pre = el('pre', 'ascii-art term-accent', BAT_EMBLEM);
+          pre.setAttribute('aria-hidden', 'true');
+          b.append(
+            pre,
+            el('p', 'term-heading', '[ BATCOMPUTER ] Gotham status: secure.'),
+            el('p', 'term-muted', '"It\'s not who I am underneath, but what I do that defines me."')
+          );
+        });
+        break;
+      case 'arch':
+      case 'btw':
+        appendBlock((b) => {
+          const pre = el('pre', 'ascii-art term-meta', ARCH_EMBLEM);
+          pre.setAttribute('aria-hidden', 'true');
+          b.append(
+            pre,
+            el('p', 'term-heading', 'I use Arch, btw.'),
+            el('p', 'term-muted', `Kernel ${PROFILE.kernel} · Hyprland · 0 broken packages (today).`)
+          );
+        });
+        break;
+      case 'pacman':
+        appendBlock((b) => {
+          b.append(
+            el('p', 'term-accent', ':: Synchronizing package databases...'),
+            el('p', null, ' core is up to date'),
+            el('p', null, ' extra is up to date'),
+            el('p', null, ' krassny is up to date'),
+            el('p', 'term-accent', ':: Starting full system upgrade...'),
+            el('p', 'term-ok', ' there is nothing to do — I use Arch, btw.')
+          );
+        });
+        break;
+      case 'sudo':
+        appendBlock((b) => {
+          const lowerArg = arg.toLowerCase();
+          if (lowerArg.includes('rm -rf')) {
+            b.append(el('p', 'term-error', '[ DENIED ] Alfred locked the Batcomputer. Nice try.'));
+          } else if (lowerArg.includes('make me a sandwich')) {
+            b.append(el('p', 'term-ok', 'Okay. Here is your sandwich.'));
+          } else {
+            b.append(el('p', 'term-error', 'guest is not in the sudoers file. This incident will be reported to Mateo.'));
+          }
+        });
+        break;
+      case 'coffee':
+      case 'cafe':
+      case 'bogota':
+        appendBlock((b) => {
+          const pre = el('pre', 'ascii-art term-accent', COFFEE_ART);
+          pre.setAttribute('aria-hidden', 'true');
+          b.append(
+            pre,
+            el('p', 'term-heading', 'Brewing Colombian coffee at 2,640m altitude (Bogotá)...'),
+            el('p', 'term-muted', 'Status: 418 I\'m a teapot — compiling PHP, Python & TypeScript anyway.')
+          );
+        });
+        break;
+      case 'vim':
+      case 'nvim':
+      case 'vi':
+        appendBlock((b) => {
+          b.append(
+            el('p', 'term-accent', 'Launching Neovim...'),
+            el('p', 'term-muted', 'Hint: :q! — returning you safely to krassny-sh before you get trapped.')
+          );
+        });
         break;
       default:
         appendBlock((b) => {
