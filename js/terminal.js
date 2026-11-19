@@ -118,7 +118,17 @@ export function createTerminal({
     window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   function scrollToBottom() {
-    rootEl.scrollTop = rootEl.scrollHeight;
+    window.requestAnimationFrame(() => {
+      if (mode === 'tty') {
+        const scroller = document.scrollingElement || document.documentElement;
+        window.scrollTo({ top: scroller.scrollHeight, behavior: 'instant' });
+        if (!formEl.hidden) {
+          formEl.scrollIntoView({ block: 'end', behavior: 'instant' });
+        }
+      } else {
+        rootEl.scrollTop = rootEl.scrollHeight;
+      }
+    });
   }
 
   function clearIntroAnimation() {
