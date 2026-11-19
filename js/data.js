@@ -10,7 +10,7 @@ export const PROFILE = {
   handle: 'MateoRojas1054',
   osName: 'KrassnyOS',
   kernel: '6.12.9-arch1-krassny',
-  wm: 'Hyprland (Omarchy Batman)',
+  wm: 'Hyprland (Wayland)',
   shell: 'zsh / krassny-sh',
   role: 'Backend & Full-Stack Developer',
   location: 'Bogotá, Colombia',

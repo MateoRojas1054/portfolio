@@ -1,6 +1,6 @@
 /**
  * games/tetris.js
- * Pure vanilla Canvas Tetris styled in Omarchy Batman (0px geometry, Base24 palette).
+ * Pure vanilla Canvas Tetris styled in KrassnyOS Dark (0px geometry, Base24 palette).
  * Supports 7-bag randomizer, ghost piece, wall kicks, localStorage high score,
  * keyboard + mobile controls, auto-pause on workspace switch, and clean teardown.
  */

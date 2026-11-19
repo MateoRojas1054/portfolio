@@ -8,7 +8,7 @@ This document describes the internal architecture, state management model, styli
 
 - **Zero Dependencies / Zero Build Step:** Pure semantic HTML5, modern CSS (`@layer`, CSS nesting, custom properties), and native ES Modules (`<script type="module">`) directly deployable on GitHub Pages.
 - **Single Source of Truth:** All portfolio content (profile metadata, systemd boot units, projects, experience, skills, verified Credly credentials, and virtual filesystem paths) lives in `js/data.js` and is consumed consistently by both the TTY shell (`js/terminal.js`) and desktop apps (`js/desktop.js`).
-- **Omarchy Batman Visual System:** Palette tokens and geometry (`0px` corners, zero drop shadows, `#000000` canvas, `#1b1d1e` window surface, `#feed6c` Bat-Signal active borders, `JetBrains Mono`) are extracted directly from the local Omarchy Batman Base24 configuration.
+- **KrassnyOS Dark Visual System:** Palette tokens and geometry (`0px` corners, zero drop shadows, `#000000` canvas, `#1b1d1e` window surface, `#feed6c` active yellow borders, `JetBrains Mono`) follow a minimalist high-contrast Base24 dark theme.
 
 ---
 

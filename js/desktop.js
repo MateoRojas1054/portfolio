@@ -1,9 +1,9 @@
 /**
  * desktop.js
- * Omarchy Batman floating desktop view controller.
+ * Hyprland-style floating desktop view controller.
  * Starts completely clean (all windows closed) with desktop icons,
  * centered bottom dock, native <dialog> app launcher, draggable floating windows,
- * live Bogota clock, and Omarchy status toast.
+ * live Bogota clock, and desktop status toast.
  */
 
 import { PROFILE, EXPERIENCE, PROJECTS, SKILLS, CERTIFICATIONS } from './data.js';

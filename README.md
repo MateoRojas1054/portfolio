@@ -1,6 +1,6 @@
 # KrassnyOS — Developer Portfolio
 
-Interactive developer portfolio for **Mateo Rojas Martinez** (Backend & Full-Stack Developer — Bogotá, Colombia), built as a zero-dependency vanilla HTML, CSS, and ES Modules desktop & terminal environment inspired by Linux TTY shells and the **Omarchy Batman** Arch/Hyprland aesthetic.
+Interactive developer portfolio for **Mateo Rojas Martinez** (Backend & Full-Stack Developer — Bogotá, Colombia), built as a zero-dependency vanilla HTML, CSS, and ES Modules desktop & terminal environment inspired by Linux TTY shells and an Arch/Hyprland floating desktop aesthetic.
 
 **Live Site:** https://mateorojas.dev/
 
@@ -17,10 +17,10 @@ KrassnyOS is structured into three native views without frameworks, bundlers, or
    - Block-ASCII `KrassnyOS` banner (responsive wide & compact layouts) with character-by-character intro output.
    - Interactive prompt (`guest@krassnyos:~$`) supporting command history (`↑` / `↓`), `Ctrl+L` clear, IME-safe `Enter` submission, and Zsh/Bash-style `Tab` autocompletion (longest common prefix, candidate listing, and cycling across commands and virtual filesystem paths).
    - Running `gui`, `startx`, `hyprland`, or `desktop` clears the TTY and prints staged `[  OK  ]` compositor startup lines before launching the desktop.
-3. **Omarchy Batman Floating Desktop (`#view-desktop`)**
-   - Opens clean with **all windows closed** on a `#000000` canvas, centered ASCII watermark, `30px` top bar (`1..5` workspaces, live `America/Bogota` clock, `EN` layout, `⏻ TTY` exit), top-right Omarchy status toast, desktop icons, and a centered bottom dock with a `⊞` Application Launcher.
+3. **Hyprland Floating Desktop (`#view-desktop`)**
+   - Opens clean with **all windows closed** on a `#000000` canvas, centered ASCII watermark, `30px` top bar (`1..5` workspaces, live `America/Bogota` clock, `EN` layout, `⏻ TTY` exit), top-right status toast, desktop icons, and a centered bottom dock with a `⊞` Application Launcher.
    - **5 Stateful Workspaces (`1..5`)**: Each workspace isolates and preserves open windows, dragged `(x, y)` coordinates, active focus, minimized states, collapsible ASCII architecture diagrams, and internal scroll positions (`scrollTop`). Switch via top-bar buttons or `Alt+1`–`Alt+5`.
-   - **Draggable Floating Windows**: Sharp `0px` Hyprland geometry, `2px solid #feed6c` Bat-Signal active borders, Pointer Events titlebar dragging clamped to the viewport, click-to-focus `z-index`, minimize (`_`), close (`×` or `Escape`), and full-width responsive mobile sheets.
+   - **Draggable Floating Windows**: Sharp `0px` Hyprland geometry, `2px solid #feed6c` active yellow borders, Pointer Events titlebar dragging clamped to the viewport, click-to-focus `z-index`, minimize (`_`), close (`×` or `Escape`), and full-width responsive mobile sheets.
    - **Built-in Games**:
      - **DOOM (1993 Shareware)** lazy-loaded inside an isolated `<iframe>` ([doom.html](doom.html)) via `js-dos v8` WebAssembly — zero initial page weight and full CPU/audio teardown on window close.
      - **Tetris** ([js/games/tetris.js](js/games/tetris.js)) built in pure Canvas JS with 7-bag piece randomization, ghost piece preview, `localStorage` high score, mobile touch D-pad, and automatic pause when switching workspaces.
@@ -42,7 +42,7 @@ KrassnyOS is structured into three native views without frameworks, bundlers, or
 | `cv` | Download or open `Mateo_Rojas_Resume.pdf` |
 | `contact` | GitHub, LinkedIn, Credly, and email links |
 | `ls [projects]` | Browse the virtual home directory |
-| `startx` / `gui` | Launch the Omarchy Batman floating desktop |
+| `startx` / `gui` | Launch the Hyprland floating desktop |
 | `doom` / `tetris` | Launch DOOM (1993) or Tetris directly in the desktop |
 | `clear` | Clear terminal history (`Ctrl+L`) |
 | `reboot` | Replay the systemd boot sequence |
@@ -70,7 +70,7 @@ portfolio/
 ├── index.html                  # Three-view semantic shell + native <dialog> modals
 ├── doom.html                   # Isolated lazy-loaded DOOM (1993) js-dos v8 runner
 ├── css/
-│   └── styles.css              # Cascade-layered (@layer) Omarchy Batman theme & responsive layout
+│   └── styles.css              # Cascade-layered (@layer) KrassnyOS dark theme & responsive layout
 ├── js/
 │   ├── main.js                 # View orchestration, hash routing (#tty <-> #desktop), focus routing
 │   ├── data.js                 # Single source of truth for profile, projects, skills, certs & FS
@@ -101,7 +101,7 @@ python3 -m http.server 8789 --bind 127.0.0.1
 Then open:
 - `http://127.0.0.1:8789/` — Full flow starting from systemd boot
 - `http://127.0.0.1:8789/#tty` — Direct to the raw Linux TTY shell
-- `http://127.0.0.1:8789/#desktop` — Direct to the Omarchy Batman floating desktop
+- `http://127.0.0.1:8789/#desktop` — Direct to the Hyprland floating desktop
 
 ---
 

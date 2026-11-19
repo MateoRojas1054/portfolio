@@ -301,7 +301,7 @@ export function createTerminal({
       ['Uptime', `${PROFILE.experienceYears} hands-on dev`],
       ['Packages', 'PHP 8.2/8.3, MySQL 8, Slim 4, Python, TS, Docker'],
       ['Education', `${PROFILE.education.institution} (${PROFILE.education.expected})`],
-      ['Theme', 'Omarchy Batman (Base24)'],
+      ['Theme', 'KrassnyOS Dark (Base24)'],
     ];
 
     specs.forEach(([k, v]) => {
@@ -509,8 +509,8 @@ export function createTerminal({
 
     const steps = [
       'Starting Hyprland Wayland compositor (KrassnyOS)...',
-      'Loading Omarchy Batman theme (#0f0e11 / #feed6c)...',
-      'Starting omarchy-shell top bar & workspaces [1..5]...',
+      'Loading KrassnyOS dark theme (#0f0e11 / #feed6c)...',
+      'Starting top status bar & workspaces [1..5]...',
       'Initializing floating desktop, dock & app launcher...',
       'Graphical session ready — switching to VT2...',
     ];

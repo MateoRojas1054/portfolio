@@ -47,7 +47,7 @@
 }
 
 @layer tokens {
-  /* Extracted directly from ~/.config/omarchy/themes/batman/ */
+  /* KrassnyOS Dark Base24 palette */
   :root {
     color-scheme: dark;
 
@@ -77,7 +77,7 @@
     --border-inactive: #505354;
     --border-subtle: #323537;
 
-    --radius: 0px; /* Hyprland batman/hyprland.conf rounding = 0 */
+    --radius: 0px; /* Sharp Hyprland geometry (rounding = 0) */
     --gap-in: 6px;
     --gap-out: 12px;
 
@@ -539,7 +539,7 @@
     }
   }
 
-  /* ---- 3. OMARCHY BATMAN FLOATING DESKTOP VIEW ---- */
+  /* ---- 3. HYPRLAND FLOATING DESKTOP VIEW ---- */
   .view-desktop {
     height: 100dvh;
     background-color: var(--bg-void);
@@ -549,7 +549,7 @@
     overflow: hidden;
   }
 
-  /* Mirrors Mateo's real omarchy-shell top bar (30px, pure dark, zero chrome) */
+  /* Minimalist Wayland top status bar (30px, pure dark, zero chrome) */
   .waybar {
     position: relative;
     z-index: 60;
@@ -723,8 +723,8 @@
     }
   }
 
-  /* Omarchy top-right subtle notification toast */
-  .omarchy-toast {
+  /* Top-right subtle notification toast */
+  .desktop-toast {
     position: absolute;
     top: 10px;
     right: 12px;
@@ -757,7 +757,7 @@
     text-align: left;
   }
 
-  /* Desktop application icons (top-left, inspired by fahru.me/desktop in Omarchy Batman style) */
+  /* Desktop application icons (top-left sharp dark tiles) */
   .desktop-icons {
     position: relative;
     z-index: 5;
@@ -815,7 +815,7 @@
     word-break: break-word;
   }
 
-  /* Icon accent tones from Batman Base24 */
+  /* Icon accent tones from Base24 palette */
   .tone-accent {
     color: var(--accent);
   }
@@ -1129,7 +1129,7 @@
     gap: 0.5rem;
   }
 
-  /* Centered Omarchy bottom dock */
+  /* Centered bottom dock */
   .dock-wrap {
     position: fixed;
     left: 50%;
@@ -1139,7 +1139,7 @@
     max-width: calc(100vw - 16px);
   }
 
-  .omarchy-dock {
+  .desktop-dock {
     display: inline-flex;
     align-items: center;
     gap: 6px;
@@ -1534,7 +1534,7 @@
       overflow-y: auto;
     }
 
-    .omarchy-toast {
+    .desktop-toast {
       top: auto;
       bottom: 64px;
       left: 10px;
@@ -1598,7 +1598,7 @@
       height: 34px;
     }
 
-    .omarchy-dock {
+    .desktop-dock {
       gap: 4px;
       padding: 4px 6px;
     }
