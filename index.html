@@ -4,191 +4,183 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mateo Rojas Martinez - Portfolio</title>
-  <meta name="description"
-    content="Mateo Rojas — Software engineer and backend developer focused on robust, scalable, cleanly architected systems." />
+  <title>KrassnyOS | Mateo Rojas Martinez</title>
+  <meta
+    name="description"
+    content="KrassnyOS — Portfolio of Mateo Rojas Martinez, Backend & Full-Stack Developer in Bogotá, Colombia (PHP 8.2+, MySQL, Python, TypeScript, Docker)."
+  />
+  <meta name="theme-color" content="#0f0e11" />
+  <link
+    rel="icon"
+    type="image/svg+xml"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230f0e11'/%3E%3Crect x='2' y='2' width='28' height='28' fill='none' stroke='%23feed6c' stroke-width='2'/%3E%3Ctext x='6' y='22' font-family='monospace' font-size='16' font-weight='bold' fill='%23feed6c'%3E%3E_%3C/text%3E%3C/svg%3E"
+  />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&display=swap"
+    rel="stylesheet"
+  />
   <link rel="stylesheet" href="css/styles.css" />
 </head>
 
-<body>
+<body data-view="boot">
+  <a href="#primary-surface" class="skip-link visually-hidden">Skip to content</a>
 
-  <div class="progress" id="progress"></div>
+  <div id="sr-announcer" class="visually-hidden" aria-live="polite" aria-atomic="true"></div>
 
-  <nav class="nav-pill" id="navPill">
-    <div class="nav-top">
-      <span>Mateo</span>
-      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
-        <span class="dots"></span>
-        <span class="close">×</span>
+  <div id="primary-surface" class="os-root">
+    <!-- 1. SYSTEMD BOOT VIEW -->
+    <section id="view-boot" class="view view-boot" aria-label="KrassnyOS boot sequence">
+      <div class="boot-shell">
+        <ol id="boot-log" class="boot-log"></ol>
+      </div>
+    </section>
+
+    <!-- 2. MINIMALIST INTERACTIVE TTY TERMINAL VIEW -->
+    <main id="view-tty" class="view view-tty" hidden>
+      <div class="tty-shell">
+        <div id="tty-output" class="term-output" role="log" aria-live="off"></div>
+
+        <form id="tty-form" class="term-form" autocomplete="off">
+          <label for="tty-input" class="visually-hidden">Enter KrassnyOS terminal command</label>
+          <span class="term-prompt-label" aria-hidden="true">guest@krassnyos:~$</span>
+          <input
+            id="tty-input"
+            class="term-input"
+            type="text"
+            spellcheck="false"
+            autocapitalize="off"
+            autocomplete="off"
+            aria-describedby="tty-input-hint"
+          />
+          <span id="tty-input-hint" class="visually-hidden">
+            Type help to list commands, Tab to autocomplete, or startx to launch the desktop interface.
+          </span>
+          <button type="submit" class="visually-hidden" tabindex="-1">Run</button>
+        </form>
+      </div>
+    </main>
+
+    <!-- 3. OMARCHY BATMAN FLOATING DESKTOP VIEW (ALL WINDOWS CLOSED ON START) -->
+    <div id="view-desktop" class="view view-desktop" hidden>
+      <header class="waybar">
+        <div class="waybar-left">
+          <button id="waybar-launcher-btn" type="button" class="waybar-arch" aria-label="Open application launcher">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M12 2L3 21h4.2l1.8-4h6l1.8 4H21L12 2zm0 6.8L14.1 14h-4.2L12 8.8z" />
+            </svg>
+          </button>
+          <div id="waybar-workspaces" class="ws-strip" role="group" aria-label="Workspaces">
+            <button type="button" class="ws-dot is-active" data-ws="1" aria-label="Workspace 1" aria-pressed="true">1</button>
+            <button type="button" class="ws-dot" data-ws="2" aria-label="Workspace 2" aria-pressed="false">2</button>
+            <button type="button" class="ws-dot" data-ws="3" aria-label="Workspace 3" aria-pressed="false">3</button>
+            <button type="button" class="ws-dot" data-ws="4" aria-label="Workspace 4" aria-pressed="false">4</button>
+            <button type="button" class="ws-dot" data-ws="5" aria-label="Workspace 5" aria-pressed="false">5</button>
+          </div>
+          <span id="waybar-active-window" class="waybar-active-title"></span>
+        </div>
+
+        <div class="waybar-center">
+          <span class="waybar-glyph" aria-hidden="true">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z" />
+            </svg>
+          </span>
+          <span id="waybar-clock" class="waybar-clock"></span>
+          <span class="waybar-kbd" aria-label="Keyboard layout English">EN</span>
+        </div>
+
+        <div class="waybar-right">
+          <span class="waybar-tray" aria-hidden="true">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 12.55a11 11 0 0 1 14.08 0" />
+              <path d="M8.53 16.11a6 6 0 0 1 6.95 0" />
+              <circle cx="12" cy="19.5" r="1" fill="currentColor" />
+            </svg>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+              <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+            </svg>
+          </span>
+          <button id="return-tty-btn" type="button" class="waybar-action waybar-tty" aria-label="Exit desktop and return to TTY">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
+              <path d="M18.36 6.64a9 9 0 1 1-12.73 0" />
+              <line x1="12" y1="2" x2="12" y2="12" />
+            </svg>
+            <span>TTY</span>
+          </button>
+        </div>
+      </header>
+
+      <div id="desktop-stage" class="desktop-stage" tabindex="-1">
+        <!-- Omarchy top-right subtle notification toast -->
+        <div id="desktop-toast" class="omarchy-toast" role="status" hidden></div>
+
+        <!-- Subtle centered wallpaper emblem -->
+        <div class="desktop-wallpaper" aria-hidden="true">
+          <pre id="wallpaper-emblem" class="wallpaper-ascii"></pre>
+        </div>
+
+        <!-- Desktop application icons (top-left, like fahru.me/desktop) -->
+        <div id="desktop-icons" class="desktop-icons" role="list" aria-label="Desktop applications"></div>
+
+        <!-- Floating windows mount layer (empty on startup) -->
+        <div id="desktop-windows" class="desktop-windows"></div>
+      </div>
+
+      <!-- Centered Omarchy bottom dock -->
+      <nav class="dock-wrap" aria-label="Application dock">
+        <div id="desktop-dock" class="omarchy-dock"></div>
+      </nav>
+    </div>
+  </div>
+
+  <!-- APPLICATION LAUNCHER MODAL (NATIVE <dialog>, triggered by dock ⊞ or Arch icon) -->
+  <dialog id="app-launcher" class="launcher-dialog" aria-labelledby="launcher-title">
+    <div class="launcher-head">
+      <h2 id="launcher-title" class="visually-hidden">Application Launcher</h2>
+      <label for="launcher-search" class="visually-hidden">Filter applications</label>
+      <input
+        id="launcher-search"
+        class="launcher-search"
+        type="text"
+        placeholder="Search KrassnyOS apps..."
+        autocomplete="off"
+        spellcheck="false"
+      />
+      <button id="launcher-close-btn" type="button" class="drawer-close" aria-label="Close application launcher">
+        [ Esc ]
       </button>
     </div>
-    <div class="nav-menu" id="navMenu">
-      <a href="#pinStage">About Me</a>
-      <a href="#services">Services</a>
-      <a href="#work">Projects</a>
-      <a href="#contact">Contact</a>
+    <div id="launcher-grid" class="launcher-grid"></div>
+  </dialog>
+
+  <!-- FLOATING DESKTOP TERMINAL DRAWER (NATIVE <dialog>) -->
+  <dialog id="terminal-drawer" class="term-drawer" aria-labelledby="drawer-title">
+    <div class="drawer-bar">
+      <h2 id="drawer-title" class="pane-title">krassny-sh :: terminal</h2>
+      <button id="close-drawer-btn" type="button" class="drawer-close" aria-label="Close terminal window">
+        [ x ]
+      </button>
     </div>
-  </nav>
-
-  <!-- PIN STAGE: hero headline + small photo -> grows/moves into bio layout -->
-  <section class="pin-stage" id="pinStage">
-    <div class="pin-inner">
-      <h1 class="pin-headline" id="pinHeadline">MATEO<br />ROJAS</h1>
-
-      <div class="photo-box" id="photoBox">
-        <div class="photo-layer back" id="photoBack">
-          <svg viewBox="0 0 200 260" fill="none">
-            <path
-              d="M100 40c-30 0-46 24-46 56 0 22 8 40 20 52-30 10-58 34-64 78h180c-6-44-34-68-64-78 12-12 20-30 20-52 0-32-16-56-46-56z"
-              fill="#050504" />
-          </svg>
-        </div>
-        <div class="photo-layer front" id="photoFront">
-          <svg viewBox="0 0 200 260" fill="none">
-            <path
-              d="M100 40c-30 0-46 24-46 56 0 22 8 40 20 52-30 10-58 34-64 78h180c-6-44-34-68-64-78 12-12 20-30 20-52 0-32-16-56-46-56z"
-              fill="#1c0503" />
-          </svg>
-        </div>
-      </div>
-
-      <div class="pin-ticker" id="pinTicker">
-        <div class="ticker-track" id="tickerTrack"></div>
-      </div>
-      <div class="pin-corner-l" id="pinCornerL">©2026</div>
-      <div class="pin-corner-r" id="pinCornerR">/CREATING SINCE 2021</div>
-
-      <div class="bio-copy" id="bioCopy">
-        <div class="col left">
-          <h2>Hey!</h2>
-          <p>I'm Mateo, a software developer based in Bogotá, currently building scalable and well-structured software
-            solutions.</p>
-        </div>
-        <div class="col right">
-          <p class="desc">Software engineer and backend developer focused on robust, scalable, cleanly architected
-            systems — deployed across production environments to automate real-world workflows.</p>
-          <a class="cta" href="#work">Get started ↗</a>
-        </div>
-      </div>
+    <div id="drawer-terminal-body" class="drawer-body">
+      <div id="drawer-output" class="term-output" role="log" aria-live="off"></div>
+      <form id="drawer-form" class="term-form" autocomplete="off">
+        <label for="drawer-input" class="visually-hidden">Enter desktop terminal command</label>
+        <span class="term-prompt-label" aria-hidden="true">guest@krassnyos:~$</span>
+        <input
+          id="drawer-input"
+          class="term-input"
+          type="text"
+          spellcheck="false"
+          autocapitalize="off"
+          autocomplete="off"
+        />
+        <button type="submit" class="visually-hidden" tabindex="-1">Run</button>
+      </form>
     </div>
-  </section>
-
-  <!-- SCRUB TEXT -->
-  <section class="scrub-section" id="scrubSection">
-    <div class="scrub-pin">
-      <p class="scrub-text" id="scrubText"></p>
-    </div>
-  </section>
-
-  <!-- SERVICES -->
-  <section class="services" id="services">
-    <div class="wrap">
-      <div class="section-head reveal">
-        <div><span class="eyebrow">/ What I do</span>
-          <h3>Services</h3>
-        </div>
-      </div>
-      <div class="services-grid stagger" id="servicesGrid">
-        <div class="service-card reveal" style="--i:0">
-          <div class="num">01</div>
-          <div>
-            <h4>Backend Development</h4>
-            <ul>
-              <li>System architecture</li>
-              <li>Object-oriented design</li>
-              <li>Design patterns</li>
-            </ul>
-          </div>
-        </div>
-        <div class="service-card reveal" style="--i:1">
-          <div class="num">02</div>
-          <div>
-            <h4>Process Automation</h4>
-            <ul>
-              <li>Workflow automation</li>
-              <li>Data parsing</li>
-              <li>Python scripting</li>
-            </ul>
-          </div>
-        </div>
-        <div class="service-card reveal" style="--i:2">
-          <div class="num">03</div>
-          <div>
-            <h4>Infrastructure &amp; CI/CD</h4>
-            <ul>
-              <li>Automated deployments</li>
-              <li>Linux environments</li>
-              <li>Server configuration</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- PROJECTS -->
-  <section class="projects" id="work">
-    <div class="wrap">
-      <div class="section-head reveal">
-        <div><span class="eyebrow">/ Selected work</span>
-          <h3>Featured Projects</h3>
-        </div>
-      </div>
-      <div id="projectsList">
-        <a class="project-row reveal" href="https://ensrural.lasalle.edu.co/ingenieria/constancias/" target="_blank" rel="noopener noreferrer">
-          <div class="project-media">
-            <img src="assets/images/lasalle-certifications.png" alt="La Salle Certifications System screenshot" class="project-img" />
-            <div class="shine"></div>
-          </div>
-          <div class="project-info"><span class="tag">Web Application</span>
-            <h4>La Salle Certifications — System</h4>
-            <p>A production-ready platform featuring clean PSR-4 autoloading and automated CI/CD pipelines.</p>
-          </div>
-        </a>
-        <!--
-        <div class="project-row reveal">
-          <div class="project-media">
-            <div class="shine"></div>
-          </div>
-          <div class="project-info"><span class="tag">Framer Template</span>
-            <h4>Najm — SaaS</h4>
-            <p>Conversion-first layout tuned for product launches and pricing clarity.</p>
-          </div>
-        </div>
-        <div class="project-row reveal">
-          <div class="project-media">
-            <div class="shine"></div>
-          </div>
-          <div class="project-info"><span class="tag">Framer Template</span>
-            <h4>Kavi — AI</h4>
-            <p>A darker, technical aesthetic for AI-native products and tools.</p>
-          </div>
-        </div>
-        -->
-      </div>
-    </div>
-  </section>
-
-  <!-- TESTIMONIALS -->
-  <section class="testimonials">
-    <div class="wrap section-head reveal">
-      <div><span class="eyebrow">/ Kind words</span>
-        <h3>Testimonials</h3>
-      </div>
-    </div>
-    <div class="test-track" id="testTrack"></div>
-  </section>
-
-  <!-- FOOTER -->
-  <section class="footer-cta" id="contact">
-    <div class="wrap">
-      <h2 class="reveal">Architecting robust systems<br />for scale.</h2>
-      <div class="footer-links reveal">
-        <div>Home · About · Services · Work · Contact</div>
-        <div>mateo.rojas1054@gmail.com</div>
-      </div>
-    </div>
-  </section>
+  </dialog>
 
   <script type="module" src="js/main.js"></script>
 </body>

@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DOOM (1993) :: KrassnyOS</title>
+  <link rel="stylesheet" href="https://v8.js-dos.com/latest/js-dos.css" />
+  <style>
+    :root {
+      color-scheme: dark;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      background: #000000;
+      color: #dadad5;
+      font-family: 'JetBrains Mono', ui-monospace, monospace;
+      overflow: hidden;
+      display: grid;
+      grid-template-rows: 1fr auto;
+    }
+
+    #dos-stage {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      min-height: 0;
+      background: #000000;
+    }
+
+    #dos {
+      width: 100%;
+      height: 100%;
+    }
+
+    #dos-status {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.65rem;
+      padding: 1rem;
+      background: #000000;
+      color: #dadad5;
+      font-size: 13px;
+      text-align: center;
+      z-index: 5;
+    }
+
+    #dos-status.is-hidden {
+      display: none;
+    }
+
+    .ok {
+      color: #98b86c;
+      font-weight: 700;
+    }
+
+    .accent {
+      color: #feed6c;
+      font-weight: 700;
+    }
+
+    .err {
+      color: #e05f65;
+    }
+
+    .doom-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.4rem 0.9rem;
+      padding: 0.35rem 0.7rem;
+      background: #0f0e11;
+      border-top: 1px solid #323537;
+      font-size: 11px;
+      color: #8a8c89;
+    }
+
+    .doom-bar strong {
+      color: #feed6c;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="dos-stage">
+    <div id="dos-status">
+      <div><span class="ok">[  OK  ]</span> Mounting <span class="accent">DOOM (1993 Shareware)</span> via js-dos WASM...</div>
+      <div style="color: #8a8c89; font-size: 11px;">Click inside the viewport once loaded to capture keyboard input.</div>
+    </div>
+    <div id="dos"></div>
+  </div>
+
+  <footer class="doom-bar" aria-label="DOOM keyboard controls">
+    <span><strong>WASD</strong> Move · <strong>Mouse / ← →</strong> Turn · <strong>Click / Ctrl</strong> Fire · <strong>Space</strong> Open · <strong>R-Shift</strong> Run · <strong>1-7</strong> Weapons · <strong>Tab</strong> Map</span>
+    <span>DOOM · js-dos v8</span>
+  </footer>
+
+  <script src="https://v8.js-dos.com/latest/js-dos.js"></script>
+  <script>
+    (function bootDoom() {
+      const container = document.getElementById('dos');
+      const statusEl = document.getElementById('dos-status');
+
+      if (typeof window.Dos !== 'function') {
+        statusEl.innerHTML =
+          '<div class="err">[ FAIL ] Could not load js-dos v8 runtime.</div>' +
+          '<div style="color:#8a8c89;font-size:11px;">Check your internet connection and reopen the DOOM window.</div>';
+        return;
+      }
+
+      try {
+        window.Dos(container, {
+          url: 'https://v8.js-dos.com/bundles/doom.jsdos',
+          autoStart: true,
+          kiosk: true,
+          theme: 'black',
+          onEvent: (event) => {
+            if (event === 'ci-ready' || event === 'emu-ready') {
+              statusEl.classList.add('is-hidden');
+            }
+          },
+        });
+
+        // Hide overlay once js-dos renders its canvas/ui even if event name differs
+        const obs = new MutationObserver(() => {
+          if (container.querySelector('canvas')) {
+            statusEl.classList.add('is-hidden');
+            obs.disconnect();
+          }
+        });
+        obs.observe(container, { childList: true, subtree: true });
+      } catch (err) {
+        statusEl.innerHTML =
+          '<div class="err">[ FAIL ] Failed to initialize DOOM: ' + String(err.message || err) + '</div>';
+      }
+    })();
+  </script>
+</body>
+
+</html>
